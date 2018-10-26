@@ -3,7 +3,6 @@ package com.vincent.videocompress;
 import android.annotation.TargetApi;
 import android.content.Intent;
 import android.content.res.Configuration;
-import android.database.Cursor;
 import android.net.Uri;
 import android.os.Build;
 import android.os.Environment;
@@ -12,8 +11,10 @@ import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.view.View;
 import android.widget.Button;
+import android.widget.MediaController;
 import android.widget.ProgressBar;
 import android.widget.TextView;
+import android.widget.VideoView;
 
 import com.vincent.videocompressor.VideoCompress;
 
@@ -34,6 +35,8 @@ public class MainActivity extends AppCompatActivity {
     private ProgressBar pb_compress;
 
     private long startTime, endTime;
+
+    private VideoView videoView;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -80,7 +83,7 @@ public class MainActivity extends AppCompatActivity {
             @Override
             public void onClick(View view) {
                 getSavePath();
-                String destPath = tv_output.getText().toString() + File.separator + "VID_" + new SimpleDateFormat("yyyyMMdd_HHmmss", getLocale()).format(new Date()) + ".mp4";
+                final String destPath = tv_output.getText().toString() + File.separator + "VID_" + new SimpleDateFormat("yyyyMMdd_HHmmss", getLocale()).format(new Date()) + ".mp4";
                 VideoCompress.compressVideoLow(tv_input.getText().toString(), destPath, new VideoCompress.CompressListener() {
                     @Override
                     public void onStart() {
@@ -102,6 +105,7 @@ public class MainActivity extends AppCompatActivity {
                         Util.writeFile(MainActivity.this, "End at: " + new SimpleDateFormat("HH:mm:ss", getLocale()).format(new Date()) + "\n");
                         Util.writeFile(MainActivity.this, "Total: " + ((endTime - startTime)/1000) + "s" + "\n");
                         Util.writeFile(MainActivity.this);
+                        playView(destPath);
                     }
 
                     @Override
@@ -127,8 +131,20 @@ public class MainActivity extends AppCompatActivity {
         tv_progress = (TextView) findViewById(R.id.tv_progress);
 
         pb_compress = (ProgressBar) findViewById(R.id.pb_compress);
+        videoView = (VideoView) findViewById(R.id.video_view);
     }
 
+    public void playView(String videoPath){
+
+
+        MediaController mediaController=new MediaController(this);
+        String uri=videoPath;
+        videoView.setVideoURI(Uri.parse(uri));
+        videoView.setMediaController(mediaController);
+        mediaController.setMediaPlayer(videoView);
+        videoView.requestFocus();
+        videoView.start();
+    }
     @Override
     protected void onActivityResult(int requestCode, int resultCode, Intent data) {
         super.onActivityResult(requestCode, resultCode, data);
