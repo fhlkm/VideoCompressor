@@ -41,6 +41,19 @@ public class MainActivity extends AppCompatActivity {
         setContentView(R.layout.activity_main);
     }
 
+    private String getSavePath(){
+        if(null != Environment.getExternalStorageDirectory()) {
+            outputDir = Environment.getExternalStorageDirectory().getPath() + "/Compress/";
+            File file = new File(outputDir);
+            if (!file.exists()) {
+                file.mkdirs();
+            }
+        }else{
+            outputDir = Environment.getExternalStoragePublicDirectory(Environment.DIRECTORY_DOWNLOADS).getAbsolutePath();
+        }
+        return outputDir;
+    }
+
     @Override
     protected void onPostCreate(@Nullable Bundle savedInstanceState) {
         super.onPostCreate(savedInstanceState);
@@ -66,6 +79,7 @@ public class MainActivity extends AppCompatActivity {
         btn_compress.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
+                getSavePath();
                 String destPath = tv_output.getText().toString() + File.separator + "VID_" + new SimpleDateFormat("yyyyMMdd_HHmmss", getLocale()).format(new Date()) + ".mp4";
                 VideoCompress.compressVideoLow(tv_input.getText().toString(), destPath, new VideoCompress.CompressListener() {
                     @Override
@@ -108,7 +122,7 @@ public class MainActivity extends AppCompatActivity {
 
         tv_input = (TextView) findViewById(R.id.tv_input);
         tv_output = (TextView) findViewById(R.id.tv_output);
-        tv_output.setText(outputDir);
+        tv_output.setText(getSavePath());
         tv_indicator = (TextView) findViewById(R.id.tv_indicator);
         tv_progress = (TextView) findViewById(R.id.tv_progress);
 
