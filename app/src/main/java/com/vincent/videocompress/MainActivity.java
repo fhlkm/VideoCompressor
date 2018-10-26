@@ -38,6 +38,9 @@ public class MainActivity extends AppCompatActivity {
 
     private VideoView videoView;
 
+    private  Button mUpload;
+
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -132,6 +135,15 @@ public class MainActivity extends AppCompatActivity {
 
         pb_compress = (ProgressBar) findViewById(R.id.pb_compress);
         videoView = (VideoView) findViewById(R.id.video_view);
+
+        mUpload = (Button)findViewById(R.id.upload);
+
+        mUpload.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+
+            }
+        });
     }
 
     public void playView(String videoPath){
