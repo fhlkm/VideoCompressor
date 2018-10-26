@@ -1,6 +1,7 @@
 package com.vincent.videocompress;
 
 import android.annotation.TargetApi;
+import android.app.Activity;
 import android.content.Intent;
 import android.content.res.Configuration;
 import android.net.Uri;
@@ -14,6 +15,7 @@ import android.widget.Button;
 import android.widget.MediaController;
 import android.widget.ProgressBar;
 import android.widget.TextView;
+import android.widget.Toast;
 import android.widget.VideoView;
 
 import com.vincent.videocompressor.VideoCompress;
@@ -39,7 +41,7 @@ public class MainActivity extends AppCompatActivity {
     private VideoView videoView;
 
     private  Button mUpload;
-
+    private String destPath;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -86,7 +88,7 @@ public class MainActivity extends AppCompatActivity {
             @Override
             public void onClick(View view) {
                 getSavePath();
-                final String destPath = tv_output.getText().toString() + File.separator + "VID_" + new SimpleDateFormat("yyyyMMdd_HHmmss", getLocale()).format(new Date()) + ".mp4";
+                destPath  = tv_output.getText().toString() + File.separator + "VID_" + new SimpleDateFormat("yyyyMMdd_HHmmss", getLocale()).format(new Date()) + ".mp4";
                 VideoCompress.compressVideoLow(tv_input.getText().toString(), destPath, new VideoCompress.CompressListener() {
                     @Override
                     public void onStart() {
@@ -141,11 +143,19 @@ public class MainActivity extends AppCompatActivity {
         mUpload.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
+                if(null != destPath) {
+                    UploadFile.httpPost(getActivity(), HttpUrl.url, destPath, destPath);
+                }else{
+                    Toast.makeText(getActivity(),R.string.select_videl,Toast.LENGTH_LONG).show();
+                }
 
             }
         });
     }
 
+    public Activity getActivity(){
+        return MainActivity.this;
+    }
     public void playView(String videoPath){
 
 
