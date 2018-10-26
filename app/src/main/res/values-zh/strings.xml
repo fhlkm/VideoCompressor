@@ -1,4 +1,4 @@
 <resources>
     <string name="app_name">VideoCompress</string>
-    <string name="select_videl">Please Select Video and upload</string>
+    <string name="select_videl">请选择视频并压缩</string>
 </resources>

@@ -24,7 +24,7 @@ public class UploadFile {
      * @param newName        log日志的名字 LOG.log
      * @return
      */
-    public static void httpPost(final Activity activity, final String urlstr,final String uploadFile, String newName) {
+    public static void httpPost(final Activity activity, final String urlstr,final String uploadFile, final String newName) {
         Log.i("getEhttpPostt", "urlstr="+urlstr+";uploadFile="+uploadFile+";newName="+newName);
 
 
