@@ -92,11 +92,12 @@ public class MainActivity extends AppCompatActivity {
                 VideoCompress.compressVideoLow(tv_input.getText().toString(), destPath, new VideoCompress.CompressListener() {
                     @Override
                     public void onStart() {
+                        tv_progress.setVisibility(View.VISIBLE);
                         tv_indicator.setText("Compressing..." + "\n"
                                 + "Start at: " + new SimpleDateFormat("HH:mm:ss", getLocale()).format(new Date()));
                         pb_compress.setVisibility(View.VISIBLE);
                         startTime = System.currentTimeMillis();
-                        Util.writeFile(MainActivity.this, "Start at: " + new SimpleDateFormat("HH:mm:ss", getLocale()).format(new Date()) + "\n");
+//                        Util.writeFile(MainActivity.this, "Start at: " + new SimpleDateFormat("HH:mm:ss", getLocale()).format(new Date()) + "\n");
                     }
 
                     @Override
@@ -107,9 +108,10 @@ public class MainActivity extends AppCompatActivity {
                                 + "End at: " + new SimpleDateFormat("HH:mm:ss", getLocale()).format(new Date()));
                         pb_compress.setVisibility(View.INVISIBLE);
                         endTime = System.currentTimeMillis();
-                        Util.writeFile(MainActivity.this, "End at: " + new SimpleDateFormat("HH:mm:ss", getLocale()).format(new Date()) + "\n");
-                        Util.writeFile(MainActivity.this, "Total: " + ((endTime - startTime)/1000) + "s" + "\n");
-                        Util.writeFile(MainActivity.this);
+//                        Util.writeFile(MainActivity.this, "End at: " + new SimpleDateFormat("HH:mm:ss", getLocale()).format(new Date()) + "\n");
+//                        Util.writeFile(MainActivity.this, "Total: " + ((endTime - startTime)/1000) + "s" + "\n");
+//                        Util.writeFile(MainActivity.this);
+                        tv_progress.setVisibility(View.GONE);
                         playView(destPath);
                     }
 
